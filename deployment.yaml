@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: camera
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: camera
+  template:
+    metadata:
+      labels:
+        app: camera
+    spec:
+      imagePullSecrets:
+        - name: gcr-json-key
+      containers:
+        - name: camera
+          image: gcr.io/teknoir/camera-http:latest
+          imagePullPolicy: Always
+          env:
+            - name: MQTT_SERVICE_HOST
+              value: "mqtt.kube-system"
+            - name: MQTT_SERVICE_PORT
+              value: "1883"
+            - name: MQTT_OUT_0
+              value: "camera/images"
+            - name: UPDATE_INTERVAL
+              value: "2000"
+            - name: UPDATE_INTERVAL
+              value: "2000"
