@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/json"
+	//"encoding/json"
 	"encoding/base64"
 	"fmt"
 	"os/signal"
@@ -17,7 +17,7 @@ import (
 	"io/ioutil"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	"github.com/google/uuid"
+	//"github.com/google/uuid"
 	"github.com/bobziuchkovski/digest"
 )
 
@@ -98,64 +98,6 @@ func captureImage(url string) (string, error) {
 }
 
 func processCameras(mqttClient mqtt.Client, ticker *time.Ticker) {
-
-	//// Discover all esp32cam services on the network (e.g. _esp32cam._tcp)
-	//log.Println("[zeroconf] Initating service discovery resolver for " + *sdService + " in " + *sdDomain)
-	//resolver, err := zeroconf.NewResolver(nil)
-	//if err != nil {
-	//	log.Fatalln("[zeroconf] Failed to initialize resolver:", err.Error())
-	//}
-	//
-	//entries := make(chan *zeroconf.ServiceEntry)
-	//ctx, cancel := context.WithCancel(context.Background())
-	//defer cancel()
-	//err = resolver.Browse(ctx, *sdService, *sdDomain, entries)
-	//if err != nil {
-	//	log.Fatalln("[zeroconf] Failed to browse:", err.Error())
-	//}
-	//
-	//var services map[string]zeroconf.ServiceEntry
-	//services = make(map[string]zeroconf.ServiceEntry)
-	//for t := range ticker.C {
-	//	log.Println("[camera] at:", t)
-	//
-	//	select {
-	//	case entry := <-entries:
-	//		log.Println("[zeroconf] Received entry", *entry)
-	//		services[(*entry).HostName] = *entry
-	//	default:
-	//	}
-	//
-	//	for _, service := range services {
-	//		//img, err := captureImage(strings.TrimRight(host, "."))
-	//		img, err := captureImage(service.AddrIPv4[0].String())
-	//		if err != nil {
-	//			log.Println("[camera] Error capturing image", err.Error())
-	//		} else {
-	//
-	//			id := uuid.New()
-	//			var payload = Payload{
-	//				Image:    img,
-	//				ImageId:  id.String(),
-	//				DeviceID: service.Instance,
-	//			}
-	//
-	//			payloadStr, err := json.Marshal(payload)
-	//			if err != nil {
-	//				log.Println("[camera] Error:", err)
-	//			}
-	//
-	//			token := mqttClient.Publish(*topic, qosAtLeastOnce, false, payloadStr)
-	//			if token.Wait() && token.Error() != nil {
-	//				log.Println("[mqtt] Error:", token.Error())
-	//			}
-	//			log.Println("[mqtt] Published image id: " + payload.ImageId + " from: " + payload.DeviceID)
-	//		}
-	//	}
-	//}
-	//
-	//<-ctx.Done()
-
 	for t := range ticker.C {
 		log.Println("[camera] at:", t)
 
@@ -164,23 +106,25 @@ func processCameras(mqttClient mqtt.Client, ticker *time.Ticker) {
 			log.Println("[camera] Error capturing image", err.Error())
 		} else {
 
-			id := uuid.New()
-			var payload = Payload{
-				Image:    img,
-				ImageId:  id.String(),
-				DeviceID: *deviceId,
-			}
+			//id := uuid.New()
+			//var payload = Payload{
+			//	Image:    img,
+			//	ImageId:  id.String(),
+			//	DeviceID: *deviceId,
+			//}
 
-			payloadStr, err := json.Marshal(payload)
-			if err != nil {
-				log.Println("[camera] Error:", err)
-			}
+			//payloadStr, err := json.Marshal(payload)
+			//if err != nil {
+			//	log.Println("[camera] Error:", err)
+			//}
 
-			token := mqttClient.Publish(*topic, qosAtLeastOnce, false, payloadStr)
+			//token := mqttClient.Publish(*topic, qosAtLeastOnce, false, payloadStr)
+			token := mqttClient.Publish(*topic, qosAtLeastOnce, false, img)
 			if token.Wait() && token.Error() != nil {
 				log.Println("[mqtt] Error:", token.Error())
 			}
-			log.Println("[mqtt] Published image id: " + payload.ImageId + " from: " + payload.DeviceID)
+			//log.Println("[mqtt] Published image id: " + payload.ImageId + " from: " + payload.DeviceID)
+			log.Println("[mqtt] Published image")
 		}
 	}
 }
