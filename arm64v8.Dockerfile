@@ -1,4 +1,4 @@
-FROM balenalib/generic-aarch64-alpine-golang:1.12 as builder
+FROM balenalib/generic-aarch64-alpine-golang:1.13 as builder
 RUN [ "cross-build-start" ]
 WORKDIR /go/src/github.com/tekn0ir/camera
 COPY . .

@@ -1,4 +1,4 @@
-FROM balenalib/intel-nuc-alpine-golang:1.12 as builder
+FROM balenalib/intel-nuc-alpine-golang:1.13 as builder
 WORKDIR /go/src/github.com/tekn0ir/camera
 COPY . .
 RUN GO111MODULE=on CGO_ENABLED=0 go build -o camera -a -ldflags '-extldflags "-static"' .
