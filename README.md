@@ -26,6 +26,5 @@ docker push tekn0ir/camera-http:arm64v8
 
 ## Run on device
 ```bash
-sudo kubectl run camera -ti --rm --image tekn0ir/camera-http:arm64v8 --generator=run-pod/v1 --overrides='{"spec":{"containers":[{"image":"tekn0ir/camera-http:arm64v8","name":"camera","command":["/bin/bash"],"tty":true,"stdin":true,"imagePullPolicy":"Always","env":[{"name":"BASE_URL","value":"http://192.168.3.200/axis-cgi/jpg/image.cgi?resolution=800x600"}]}]}}'
+sudo kubectl run camera -ti --rm --image tekn0ir/camera-http:arm64v8 --generator=run-pod/v1 --overrides='{"spec":{"containers":[{"image":"tekn0ir/camera-http:arm64v8","name":"camera","command":["/bin/bash"],"tty":true,"stdin":true,"imagePullPolicy":"Always","env":[{"name":"BASE_URL","value":"http://192.168.3.101/axis-cgi/jpg/image.cgi?resolution=800x600"},{"name":"USERNAME","value":"root"},{"name":"PASSWORD","value":"teknoir"}]}]}}'
 ```
-

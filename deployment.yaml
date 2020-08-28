@@ -29,3 +29,9 @@ spec:
               value: "2000"
             - name: UPDATE_INTERVAL
               value: "2000"
+            - name: BASE_URL
+              value: "http://192.168.3.101/axis-cgi/jpg/image.cgi?resolution=800x600"
+            - name: USERNAME
+              value: "root"
+            - name: PASSWORD
+              value: "teknoir"
