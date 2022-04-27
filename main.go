@@ -1,12 +1,10 @@
 package main
 
 import (
-	//"encoding/json"
 	"encoding/base64"
 	"fmt"
 	"os/signal"
 	"strconv"
-	//"strings"
 
 	"flag"
 	"io/ioutil"
@@ -17,8 +15,7 @@ import (
 	"time"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	//"github.com/google/uuid"
-	"github.com/bobziuchkovski/digest"
+	"github.com/gabstv/httpdigest"
 )
 
 const (
@@ -66,7 +63,7 @@ func getImage(url string) (resp *http.Response, err error) {
 	switch *authType {
 	case "basic":
 		log.Println("[camera] Using Basic Auth")
-		req, err := http.NewRequest("GET", url, nil)
+		req, err := http.NewRequest(http.MethodGet, url, nil)
 		if err != nil {
 			log.Fatalln("[camera] Error preparing request", err.Error())
 		}
@@ -77,12 +74,15 @@ func getImage(url string) (resp *http.Response, err error) {
 		return client.Do(req)
 	case "digest":
 		log.Println("[camera] Using Digest Auth")
-		req, err := http.NewRequest("GET", url, nil)
+		t := httpdigest.New(*user, *pass)
+		client := &http.Client{
+			Transport: t,
+		}
+		req, err := http.NewRequest(http.MethodGet, url, nil)
 		if err != nil {
 			log.Fatalln("[camera] Error preparing request", err.Error())
 		}
-		t := digest.NewTransport(*user, *pass)
-		return t.RoundTrip(req)
+		return client.Do(req)
 	default:
 		log.Println("[camera] Using No Auth")
 		client := http.Client{

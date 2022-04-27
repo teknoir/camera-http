@@ -6,7 +6,7 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/$PROJECT_ID/camera-http:amd64'
+      - 'gcr.io/$PROJECT_ID/camera-http:amd64-$SHORT_SHA'
       - '-f'
       - './amd64.Dockerfile'
       - '.'
@@ -16,7 +16,7 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/$PROJECT_ID/camera-http:arm32v7'
+      - 'gcr.io/$PROJECT_ID/camera-http:arm32v7-$SHORT_SHA'
       - '-f'
       - './arm32v7.Dockerfile'
       - '.'
@@ -26,7 +26,7 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/$PROJECT_ID/camera-http:arm64v8'
+      - 'gcr.io/$PROJECT_ID/camera-http:arm64v8-$SHORT_SHA'
       - '-f'
       - './arm64v8.Dockerfile'
       - '.'
@@ -35,7 +35,7 @@ steps:
     id: 'push-amd64'
     args:
       - 'push'
-      - 'gcr.io/$PROJECT_ID/camera-http:amd64'
+      - 'gcr.io/$PROJECT_ID/camera-http:amd64-$SHORT_SHA'
     waitFor: ['amd64']
 
 
@@ -43,14 +43,14 @@ steps:
     id: 'push-arm32v7'
     args:
       - 'push'
-      - 'gcr.io/$PROJECT_ID/camera-http:arm32v7'
+      - 'gcr.io/$PROJECT_ID/camera-http:arm32v7-$SHORT_SHA'
     waitFor: ['arm32v7']
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'push-arm64v8'
     args:
       - 'push'
-      - 'gcr.io/$PROJECT_ID/camera-http:arm64v8'
+      - 'gcr.io/$PROJECT_ID/camera-http:arm64v8-$SHORT_SHA'
     waitFor: ['arm64v8']
 
   - name: 'gcr.io/cloud-builders/docker'
@@ -60,10 +60,10 @@ steps:
     args:
       - 'manifest'
       - 'create'
-      - 'gcr.io/$PROJECT_ID/camera-http:latest' # $COMMIT_SHA'
-      - 'gcr.io/$PROJECT_ID/camera-http:amd64'
-      - 'gcr.io/$PROJECT_ID/camera-http:arm32v7'
-      - 'gcr.io/$PROJECT_ID/camera-http:arm64v8'
+      - 'gcr.io/$PROJECT_ID/camera-http:latest-$BRANCH_NAME'
+      - 'gcr.io/$PROJECT_ID/camera-http:amd64-$SHORT_SHA'
+      - 'gcr.io/$PROJECT_ID/camera-http:arm32v7-$SHORT_SHA'
+      - 'gcr.io/$PROJECT_ID/camera-http:arm64v8-$SHORT_SHA'
     waitFor: ['push-amd64', 'push-arm32v7', 'push-arm64v8']
 
   - name: 'gcr.io/cloud-builders/docker'
@@ -73,8 +73,8 @@ steps:
     args:
       - 'manifest'
       - 'annotate'
-      - 'gcr.io/$PROJECT_ID/camera-http:latest'
-      - 'gcr.io/$PROJECT_ID/camera-http:amd64'
+      - 'gcr.io/$PROJECT_ID/camera-http:latest-$BRANCH_NAME'
+      - 'gcr.io/$PROJECT_ID/camera-http:amd64-$SHORT_SHA'
       - '--os=linux'
     waitFor: ['manifest']
 
@@ -85,8 +85,8 @@ steps:
     args:
       - 'manifest'
       - 'annotate'
-      - 'gcr.io/$PROJECT_ID/camera-http:latest'
-      - 'gcr.io/$PROJECT_ID/camera-http:arm32v7'
+      - 'gcr.io/$PROJECT_ID/camera-http:latest-$BRANCH_NAME'
+      - 'gcr.io/$PROJECT_ID/camera-http:arm32v7-$SHORT_SHA'
       - '--os=linux'
       - '--arch=arm'
       - '--variant=v7'
@@ -99,8 +99,8 @@ steps:
     args:
       - 'manifest'
       - 'annotate'
-      - 'gcr.io/$PROJECT_ID/camera-http:latest'
-      - 'gcr.io/$PROJECT_ID/camera-http:arm64v8'
+      - 'gcr.io/$PROJECT_ID/camera-http:latest-$BRANCH_NAME'
+      - 'gcr.io/$PROJECT_ID/camera-http:arm64v8-$SHORT_SHA'
       - '--os=linux'
       - '--arch=arm64'
       - '--variant=v8'
@@ -113,11 +113,5 @@ steps:
     args:
       - 'manifest'
       - 'push'
-      - 'gcr.io/$PROJECT_ID/camera-http:latest'
+      - 'gcr.io/$PROJECT_ID/camera-http:latest-$BRANCH_NAME'
     waitFor: ['annotate-manifest-amd64', 'annotate-manifest-arm32v7', 'annotate-manifest-arm64v8']
-
-
-images:
-  - 'gcr.io/$PROJECT_ID/camera-http:amd64'
-  - 'gcr.io/$PROJECT_ID/camera-http:arm32v7'
-  - 'gcr.io/$PROJECT_ID/camera-http:arm64v8'
