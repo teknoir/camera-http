@@ -9,12 +9,12 @@ import (
 	//"strings"
 
 	"flag"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"syscall"
 	"time"
-	"net/http"
-	"io/ioutil"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	//"github.com/google/uuid"
@@ -49,9 +49,10 @@ var (
 
 	topic = flag.String("topic", getEnv("MQTT_OUT_0", "camera/images"), "The MQTT topic to publish images to")
 
-	baseUrl = flag.String("base_url", getEnv("BASE_URL", "http://localhost/capture"), "The url to the camera image to capture")
-	user = flag.String("user", getEnv("USERNAME", "root"), "The basic auth username")
-	pass = flag.String("password", getEnv("PASSWORD", "teknoir"), "The basic auth password")
+	baseUrl  = flag.String("base_url", getEnv("BASE_URL", "http://localhost/capture"), "The url to the camera image to capture")
+	authType = flag.String("auth_type", getEnv("AUTH_TYPE", "digest"), "The auth type can be \"digest\" or \"basic\" (default: digest)")
+	user     = flag.String("user", getEnv("USERNAME", "root"), "The auth username")
+	pass     = flag.String("password", getEnv("PASSWORD", "teknoir"), "The auth password")
 	deviceId = flag.String("device_id", getEnv("DEVICE_ID", "device-id-001"), "The device id of the camera")
 )
 
@@ -61,20 +62,38 @@ type Payload struct {
 	ImageId  string `json:"image_id"`
 }
 
-func captureImage(url string) (string, error) {
-	//client := http.Client{
-	//	Timeout: 5 * time.Second,
-	//}
-
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		log.Fatalln("[camera] Error preparing request", err.Error())
+func getImage(url string) (resp *http.Response, err error) {
+	switch *authType {
+	case "basic":
+		log.Println("[camera] Using Basic Auth")
+		req, err := http.NewRequest("GET", url, nil)
+		if err != nil {
+			log.Fatalln("[camera] Error preparing request", err.Error())
+		}
+		req.SetBasicAuth(*user, *pass)
+		client := http.Client{
+			Timeout: 5 * time.Second,
+		}
+		return client.Do(req)
+	case "digest":
+		log.Println("[camera] Using Digest Auth")
+		req, err := http.NewRequest("GET", url, nil)
+		if err != nil {
+			log.Fatalln("[camera] Error preparing request", err.Error())
+		}
+		t := digest.NewTransport(*user, *pass)
+		return t.RoundTrip(req)
+	default:
+		log.Println("[camera] Using No Auth")
+		client := http.Client{
+			Timeout: 5 * time.Second,
+		}
+		return client.Get(url)
 	}
-	//req.SetBasicAuth(*user, *pass)
-	//resp, err := client.Do(req)
-	////resp, err := client.Get(url)
-	t := digest.NewTransport(*user, *pass)
-	resp, err := t.RoundTrip(req)
+}
+
+func captureImage(url string) (string, error) {
+	resp, err := getImage(url)
 	if err != nil {
 		log.Fatalln("[camera] Error getting image", err.Error())
 	}
