@@ -1,0 +1,16 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  title: HTTP Camera App
+  name: camera-http-app
+  namespace: teknoir
+  description: Deploy a mongodb database to your edge device
+  annotations:
+    'github.com/project-slug': teknoir/camera-http
+    'backstage.io/techdocs-ref': dir:.
+spec:
+  type: app
+  owner: group:teknoir/teknoir-public
+  system: system:teknoir/computer-vision
+  lifecycle: experimental
