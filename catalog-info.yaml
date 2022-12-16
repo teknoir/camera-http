@@ -5,7 +5,7 @@ metadata:
   title: HTTP Camera App
   name: camera-http-app
   namespace: teknoir
-  description: Deploy a mongodb database to your edge device
+  description: The camera app collect images from cameras over http/api.
   annotations:
     'github.com/project-slug': teknoir/camera-http
     'backstage.io/techdocs-ref': dir:.

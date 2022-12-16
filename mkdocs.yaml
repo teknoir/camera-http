@@ -1,7 +1,7 @@
 site_name: HTTP Camera App User documentation
 site_description: The camera app collect images from cameras over http/api.
 repo_url: https://github.com/teknoir/camera-http
-edit_uri: edit/main/docs
+edit_uri: edit/master/docs
 
 nav:
   - Start: 'index.md'
