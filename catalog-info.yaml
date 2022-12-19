@@ -5,10 +5,12 @@ metadata:
   title: HTTP Camera
   name: camera-http-app
   namespace: teknoir
-  description: The camera app collect images from cameras over http/api.
+  description: The camera app let your device collect images from cameras over http/api
   annotations:
     'github.com/project-slug': teknoir/camera-http
     'backstage.io/techdocs-ref': dir:.
+  tags:
+    - peripheral
 spec:
   type: app
   owner: group:teknoir/teknoir-public
