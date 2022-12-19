@@ -2,7 +2,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  title: HTTP Camera App
+  title: HTTP Camera
   name: camera-http-app
   namespace: teknoir
   description: The camera app collect images from cameras over http/api.
