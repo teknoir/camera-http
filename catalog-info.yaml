@@ -13,6 +13,8 @@ metadata:
     - peripheral
 spec:
   type: app
-  owner: group:teknoir/teknoir-public
+  owner: group:teknoir/public
   system: system:teknoir/computer-vision
   lifecycle: experimental
+  dependsOn:
+    - component:teknoir/gcr.io.teknoir.camera-http
