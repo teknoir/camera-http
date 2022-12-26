@@ -32,7 +32,8 @@ http://192.168.0.186/snap.jpg?JpegSize=L
 __this might not work for all Bosh cameras__
 
 !!! note
-You have to specify IP and resolution setting that match your peripherals and application.
+
+    You have to specify IP and resolution setting that match your peripherals and application.
 
 ### Basic Auth support
 
