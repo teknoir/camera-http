@@ -12,12 +12,10 @@ spec:
       labels:
         app: camera
     spec:
-      imagePullSecrets:
-        - name: gcr-json-key
       containers:
         - name: camera
-          image: gcr.io/teknoir/camera-http:latest
-          imagePullPolicy: Always
+          image: gcr.io/teknoir/camera-http:latest-master
+          imagePullPolicy: IfNotPresent
           env:
             - name: MQTT_SERVICE_HOST
               value: "mqtt.kube-system"
@@ -26,10 +24,12 @@ spec:
             - name: MQTT_OUT_0
               value: "camera/images"
             - name: UPDATE_INTERVAL
-              value: "2000"
+              value: "5000"
             - name: BASE_URL
-              value: "http://192.168.3.101/axis-cgi/jpg/image.cgi?resolution=800x600"
+              value: "http://192.168.0.186/snap.jpg?JpegSize=L"
+            - name: AUTH_TYPE
+              value: "digest"
             - name: USERNAME
-              value: "root"
+              value: "service"
             - name: PASSWORD
-              value: "teknoir"
+              value: "Teknoir202!"
