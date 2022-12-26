@@ -8,7 +8,7 @@ description: The camera app collect images from cameras over http/api.
 # HTTP camera App
 The camera app collect images from cameras over http/api.
 
-![Overview diagram](./assets/diagram.svg){ width="400" }
+![Overview diagram](./assets/diagram.svg){ width="800" }
 
 ## Features
 
