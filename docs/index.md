@@ -8,14 +8,14 @@ description: The camera app collects images from cameras over HTTP/API.
 # HTTP camera App
 The camera app collects images from cameras over HTTP/API.
 
-![Overview diagram](./assets/diagram.svg){ width="800" }
-
-## Features
+## Overview
 
 The most simple app to ingest images into a message stream with a fixed interval. The app calls an HTTP(S) API that
 provide a binary JPEG image response.
 
-### Start streaming images
+![Overview diagram](./assets/diagram.svg){ width="800" }
+
+## Start streaming images
 
 Define the source of the images, a BASE_URL, example from the Axis IP camera looks like this:
 
