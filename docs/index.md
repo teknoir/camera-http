@@ -28,6 +28,18 @@ provide a binary JPEG image response.
 | `USERNAME`           | The auth username                        | root                     |
 | `PASSWORD`           | The auth password      Delete resource   | teknoir                  |
 
+## MQTT Message Format
+
+The message format only has one JSON element called payload, that contain the image data. The image is encoded with MIME, 
+base64 encoding for the JPEG image. This is the default for most image generating apps from Teknoir.
+
+This example is truncated and does not show the full MIME image data:
+```json
+{
+  "payload": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD/4QErRXhpZgAASUkqAAgAAAAFAA8BAgAFAAAASgAAABABAgAGAAAA..."
+}
+```
+
 ## Advanced
 
 ```yaml
