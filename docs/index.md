@@ -2,42 +2,44 @@
 id: index
 title: User Documentation
 # prettier-ignore
-description: The camera app collect images from cameras over http/api.
+description: The camera app collects images from cameras over HTTP/API.
 ---
 
 # HTTP camera App
-The camera app collect images from cameras over http/api.
+The camera app collects images from cameras over HTTP/API.
 
 ![Overview diagram](./assets/diagram.svg){ width="800" }
 
 ## Features
 
-The most simple app to ingest images into a message stream with a fixed interval. The app calls a http(s) API that 
+The most simple app to ingest images into a message stream with a fixed interval. The app calls an HTTP(S) API that
 provide a binary JPEG image response.
 
 ### Start streaming images
 
-Define the source of the images, a BASE_URL, example from Axis IP camera looks like this:
+Define the source of the images, a BASE_URL, example from the Axis IP camera looks like this:
+
 ```url
 http://192.168.1.137/axis-cgi/jpg/image.cgi?resolution=640x480
 ```
 __this might not work for all Axis cameras__
-a Bosch IP camera example:
+
+A Bosch IP camera example:
+
 ```url
 http://192.168.0.186/snap.jpg?JpegSize=L
 ```
 __this might not work for all Bosh cameras__
 
 !!! note
-
-You have to specify IP and resolution setting that match your application.
+You have to specify IP and resolution setting that match your peripherals and application.
 
 ### Basic Auth support
 
-The HTTP Camera App support Basic Auth for calling IP cameras or APIs. So have credentials ready to fill in `USERNAME` 
+The HTTP Camera App supports Basic Auth for calling IP cameras or APIs. So have credentials ready to fill in `USERNAME`
 and `PASSWORD`.
 
-There are variations of Basic Auth, basic or disgest, sometimes called Digest Auth. Specify AUTH_TYPE accordingly.
+There are variations of Basic Auth, `basic` or `digest`, sometimes called Digest Auth. Specify `AUTH_TYPE` accordingly.
 
 ### Output
 
@@ -45,8 +47,8 @@ Output can be sent to the MQTT Broker on a custom topic. The topic is set by the
 
 #### MQTT Message Format
 
-The message format only has one JSON element called payload, that contain the image data. The image is encoded with MIME, 
-base64 encoding for the JPEG image. This is the default for most image generating apps from Teknoir.
+The message format only has one JSON element called payload, which contains the image data. The image is encoded with MIME,
+base64 encoding for the JPEG image. This is the default for most image-generating apps from Teknoir.
 
 This example is truncated and does not show the full MIME image data:
 ```json
