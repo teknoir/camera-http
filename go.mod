@@ -1,11 +1,14 @@
 module github.com/tekn0ir/webcam
 
-go 1.13
+go 1.24.0
 
 require (
-	github.com/eclipse/paho.mqtt.golang v1.2.0
-	github.com/gabstv/httpdigest v0.0.0-20200601123255-912d52c2d608 // indirect
-	github.com/google/uuid v1.1.1
-	github.com/grandcat/zeroconf v1.0.0
-	golang.org/x/time v0.0.0-20190921001708-c4c64cad1fd0 // indirect
+	github.com/eclipse/paho.mqtt.golang v1.5.1
+	github.com/gabstv/httpdigest v0.0.0-20200601123255-912d52c2d608
+)
+
+require (
+	github.com/gorilla/websocket v1.5.3 // indirect
+	golang.org/x/net v0.44.0 // indirect
+	golang.org/x/sync v0.17.0 // indirect
 )
